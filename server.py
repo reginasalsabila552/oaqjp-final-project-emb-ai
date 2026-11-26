@@ -1,3 +1,4 @@
+"""Flask server untuk aplikasi Emotion Detector."""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -6,11 +7,12 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def sent_detector():
+    """Menganalisis teks dan mengembalikan skor emosi."""
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
-   
+
     if response['dominant_emotion'] is None:
-       return "Invalid text! Please try again!"
+        return "Invalid text! Please try again!"
 
     return (
         f"For the given statement, the system response is "
@@ -23,8 +25,10 @@ def sent_detector():
 
 @app.route("/")
 def render_index_page():
+    """Menampilkan halaman utama."""
     return render_template('index.html')
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+    
